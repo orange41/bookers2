@@ -5,7 +5,7 @@ def show
 end
 
   def edit
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def update
@@ -16,7 +16,18 @@ end
 
   private
 
-  def user_params
-    params.require(:user).permit(:name, :profile_image)
+  def authenticate_user
+    unless logged_in?
+      flash[:alert] = "ログインが必要です"
+      redirect_to login_path
+    end
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 end
