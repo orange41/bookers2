@@ -14,6 +14,10 @@ end
     redirect_to user_path(@user)
   end
 
+  def index
+  @users = User.all
+  end
+
   private
 
   def authenticate_user

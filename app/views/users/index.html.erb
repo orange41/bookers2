@@ -1,0 +1,23 @@
+<!-- index.html.erb -->
+<style>
+  .user-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* ユーザーごとの間隔を設定 */
+  }
+
+  .user-image {
+    margin-right: 10px; /* 画像と名前の間隔を設定 */
+  }
+</style>
+
+<h1>ユーザー一覧</h1>
+<ul>
+  <% @users.each do |user| %>
+    <li class="user-list">
+      <%= image_tag user.get_profile_image(100, 100), class: "user-image" %>
+
+      <h3><%= user.name %></h3>
+    </li>
+  <% end %>
+</ul>
