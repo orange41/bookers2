@@ -3,17 +3,18 @@ class BooksController < ApplicationController
     @book = Book.new
   end
   
-def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(resource)
     books_path
-end
+  end
 
-  # 投稿データの保存
-def create
-  @book = Book.new(book_params)
-  @book.user_id = current_user.id
+  def create
+    @book = Book.new(book_params)
+    @book.user_id = current_user.id
   if @book.save
-    redirect_to books_path, notice: '書籍が正常に作成されました。'
+    flash[:notice] = 'successfully created'
+    redirect_to books_path
   else
+    flash[:error] = 'error creating'
     render :new
   end
 end
@@ -26,9 +27,19 @@ end
     @book = Book.find(params[:id])
   end
 
+  def update
+     if @book.save
+    flash[:notice] = 'successfully updated'
+    redirect_to books_path
+  else
+    flash[:error] = 'error  updating'
+    render :new
+  end
+  end
+
   private
 
   def book_params
-    params.require(:book).permit(:title, :body,)
+    params.require(:book).permit(:title, :body)
   end
 end
