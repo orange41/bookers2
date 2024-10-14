@@ -13,18 +13,25 @@ def new
 end
 
 def create
-@user = User.new(user_params)
-if @user.save
-flash[:success] = "successfully Login"
-redirect_to login_path
-else
-flash[:error] = "Error in registration"
-render 'new'
+  @user = User.new(user_params)
+  if @user.save
+    session[:user_id] = @user.id
+    flash[:success] = "User successfully created"
+    redirect_to user_path(@user) # 修正した部分
+  else
+    flash[:error] = "Error in registration"
+    render 'new'
+  end
 end
+
+def show
+  @user = User.find(params[:id])
+  @books = @user.books.page(params[:page])
 end
 
 def edit
-@user = current_user
+  authenticate_user!
+  @user = current_user
 end
 
 def update
@@ -46,7 +53,9 @@ redirect_to root_path
 end
 
 def login
-flash[:success] = "successfully Login"
+  session[:user_id] = @user.id
+  flash[:success] = "Signed in successfully."
+  redirect_to user_path(@user)
 end
 
 def logout
