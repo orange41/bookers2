@@ -35,27 +35,13 @@
 </form>
     </div><!-- index.html.erb -->
 <style>
-  .user-list {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* ユーザーごとの間隔を設定 */
-  }
-
-  .user-image {
-    margin-right: 10px; /* 画像と名前の間隔を設定 */
-  }
-</style>
-
-<h1>ユーザー一覧</h1>
-  <ul>
-    <% @users.each do |user| %>
-      <li>
-        <% if user.profile_image.attached? %>
-          <%= image_tag url_for(user.profile_image.variant(resize: "100x100")), alt: user.name, class: "user-image" %> <!-- プロフィール画像を表示 -->
-        <% else %>
-          <div class="default-user-image">デフォルト画像</div> <!-- 画像がない場合の代替表示 -->
-        <% end %>
-        <span><%= user.name %></span> <!-- ユーザー名を表示 -->
-      </li>
-    <% end %>
-  </ul>
+<h2>Users</h2>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <%= image_tag(user.avatar_url) %>
+      <h3><%= user.name %></h3>
+      <p><%= user.bio %></p>
+    </li>
+  <% end %>
+</ul>

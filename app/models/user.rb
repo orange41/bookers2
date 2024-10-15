@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+
+
   has_many :books, dependent: :destroy # post_imagesという関連付けを追加
 
   has_one_attached :profile_image

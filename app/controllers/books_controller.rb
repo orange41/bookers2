@@ -20,7 +20,7 @@ class BooksController < ApplicationController
 end
 
   def index
-    @books = Book.all
+    @users = User.all # もしくは適切なユーザー情報を取得する方法
   end
 
   def show
