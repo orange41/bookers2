@@ -19,12 +19,19 @@ def create
 end
 
 def show
-  @user = User.find(params[:id])
+  @user = current_user
   @books = @user.books.page(params[:page])
 end
 
 def edit
-  @user = current_user
+  @user = User.find(params[:id])
+  
+  if current_user == @user
+    render 'edit' # ユーザーが一致する場合はeditページを表示
+  else
+    flash[:error] = "You are not authorized to edit this user"
+    redirect_to root_path # ユーザーが一致しない場合はトップページにリダイレクト
+  end
 end
 
 def update
@@ -69,3 +76,4 @@ def user_params
 params.require(:user).permit(:name, :email, :password)
 end
 end
+
