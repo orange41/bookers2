@@ -1,12 +1,6 @@
 class UsersController < ApplicationController
-before_action :authenticate_user, only: [:edit, :update]
-
-before_action :authenticate_user!, except: [:index, :show]
-end
-
-class BooksController < ApplicationController
 before_action :authenticate_user!
-end
+before_action :is_matching_login_user, only: [:edit, :update]
 
 def new
 @user = User.new
@@ -30,7 +24,6 @@ def show
 end
 
 def edit
-  authenticate_user!
   @user = current_user
 end
 
@@ -53,13 +46,16 @@ redirect_to root_path
 end
 
 def login
+  @user = User.find(params[:id]) # ログインするユーザーを取得するコードを追加
   session[:user_id] = @user.id
   flash[:success] = "Signed in successfully."
   redirect_to user_path(@user)
 end
 
 def logout
-flash[:success] = "successfully Logout"
+  session[:user_id] = nil # セッションを削除するコードを追加
+  flash[:success] = "Successfully logged out"
+  redirect_to root_path
 end
 
 def index
@@ -72,18 +68,4 @@ private
 def user_params
 params.require(:user).permit(:name, :email, :password)
 end
-
-def authenticate_user
-unless logged_in?
-flash[:alert] = "Login is required"
-redirect_to login_path
-end
-end
-
-def logged_in?
-!!current_user
-end
-
-def current_user
-@current_user ||= User.find(session[:user_id]) if session[:user_id]
 end
