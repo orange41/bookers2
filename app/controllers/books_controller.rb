@@ -19,9 +19,10 @@ class BooksController < ApplicationController
   end
 end
 
-  def index
-    @users = User.all # もしくは適切なユーザー情報を取得する方法
-  end
+def index
+  @user = current_user
+  @books = Book.includes(:user).all
+end
 
   def show
     @book = Book.find(params[:id])
