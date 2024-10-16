@@ -18,26 +18,26 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-    @user = current_user
-    @books = @user.books.page(params[:page])
-  end
+def show
+  @user = User.find(params[:id])
+  @books = @user.books.page(params[:page])
+end
 
-  def edit
-    @user = current_user
+def edit
+  @user = User.find(params[:id])  # ここで current_user を使わない
+
+end
+
+def update
+  @user = User.find(params[:id])
+  if @user.update(user_params)
+    flash[:success] = "User successfully updated"
+    redirect_to user_path(@user)
+  else
+    flash[:error] = "Error updating user"
     render 'edit'
   end
-
-  def update
-    @user = current_user
-    if @user.update(user_params)
-      flash[:success] = "Successfully updated"
-      redirect_to user_path(@user)
-    else
-      flash[:error] = "Error in updating profile"
-      redirect_to edit_user_path(@user)
-    end
-  end
+end
 
   def destroy
     @user = User.find(params[:id])
@@ -59,14 +59,15 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def index
-    @users = User.all
-  end
+def index
+  @users = User.all
+  @user = current_user
+end
 
   private
 
 def user_params
-  params.require(:user).permit(:name, :email, :password, :introduction, :profile_image)
+  params.require(:user).permit(:name, :profile_image, :introduction, :email)  # 必要なパラメータを追加
 end
 
   def is_matching_login_user

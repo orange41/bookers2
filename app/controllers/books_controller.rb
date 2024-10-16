@@ -21,6 +21,7 @@ end
 
 def index
   @user = current_user
+  @books = @user.books
   @books = Book.includes(:user).all
 end
 
