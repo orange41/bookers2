@@ -2,25 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :is_matching_login_user, only: [:edit, :update]
 
-  def new
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      session[:user_id] = @user.id
-      flash[:success] = "User successfully created"
-      redirect_to user_path(@user)
-    else
-      flash[:error] = "Error in registration"
-      render 'new'
-    end
-  end
-
   def show
     @user = User.find(params[:id])
-    @books = @user.books.page(params[:page])
+    @books = @user.books.page(params[:page])  # ユーザーの投稿一覧を取得
+    @book = Book.new  # 新しい本のインスタンスを初期化
   end
 
   def edit
@@ -31,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "User successfully updated"
-      redirect_to user_path(@user)  # 編集完了後にユーザーページにリダイレクト
+      redirect_to user_path(@user)
     else
       flash[:error] = "Error updating user"
       render 'edit'

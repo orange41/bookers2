@@ -19,7 +19,7 @@
         </table>
         <div class="row">
           <a class="btn btn-outline-secondary btn-block edit_user_<%= @user.id %>" href="<%= edit_user_path(@user) %>">
-            <i class="fas fa-wrench"></i>
+            <i class="fas fa-wrench"></i> Edit Profile
           </a>
         </div>
         <h2 class="mt-3">New book</h2>
@@ -30,7 +30,7 @@
             <input class="form-control book_title" type="text" name="book[title]" id="book_title">
           </div>
           <div class="form-group">
-            <label for="book_opinion">Opinion</label>
+            <label for="book_body">Opinion</label>
             <textarea class="form-control book_body" name="book[body]" id="book_body"></textarea>
           </div>
           <div class="form-group">
@@ -59,8 +59,14 @@
               </td>
               <td><%= @book.title %></td>
               <td><%= @book.body %></td>
-              <td><a class="btn btn-sm btn-success edit_book_<%= @book.id %>" href="<%= edit_book_path(@book) %>">Edit</a></td>
-              <td><a data-confirm="本当に消しますか？" class="btn btn-sm btn-danger destroy_book_<%= @book.id %>" rel="nofollow" data-method="delete" href="<%= book_path(@book) %>">Destroy</a></td>
+              <% if @book.user == current_user %>
+                <td>
+                  <a class="btn btn-sm btn-success edit_book_<%= @book.id %>" href="<%= edit_book_path(@book) %>">Edit</a>
+                </td>
+                <td>
+                  <a data-confirm="本当に消しますか？" class="btn btn-sm btn-danger destroy_book_<%= @book.id %>" rel="nofollow" data-method="delete" href="<%= book_path(@book) %>">Destroy</a>
+                </td>
+              <% end %>
             </tr>
           </tbody>
         </table>

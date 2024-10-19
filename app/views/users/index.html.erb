@@ -34,42 +34,47 @@
             <input class="form-control book_title" type="text" name="book[title]" id="book_title">
           </div>
           <div class="form-group">
-            <label for="book_opinion">Opinion</label>
-            <textarea class="form-control book_body" name="book[opinion]" id="book_opinion"></textarea>
+            <label for="book_body">Opinion</label> <!-- ここを修正 -->
+            <textarea class="form-control book_body" name="book[body]" id="book_body"></textarea> <!-- ここを修正 -->
           </div>
           <div class="form-group">
             <input type="submit" name="commit" value="Create Book" class="btn btn-success" data-disable-with="Create Book">
           </div>
         </form>
       </div>
-
-<div class="col-md-8 offset-md-1">
-  <h2>Users</h2>
-  <table class="table table-hover table-inverse">
-    <thead>
-      <tr>
-        <th>Avatar</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @users.present? %>
-        <% @users.each do |user| %>
-          <tr>
-            <td>
-              <% if user.profile_image.attached? %>
-                <%= image_tag(user.profile_image.variant(resize: "100x100")) %>
-              <% else %>
-                <%= image_tag('no_image.jpg', size: "100x100") %>
+      <div class="col-md-8 offset-md-1">
+        <h2>Users</h2>
+        <table class="table table-hover table-inverse">
+          <thead>
+            <tr>
+              <th>Avatar</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @users.present? %>
+              <% @users.each do |user| %>
+                <tr>
+                  <td>
+                    <% if user.profile_image.attached? %>
+                      <%= image_tag(user.profile_image.variant(resize: "100x100")) %>
+                    <% else %>
+                      <%= image_tag('no_image.jpg', size: "100x100") %>
+                    <% end %>
+                  </td>
+                  <td><%= user.name %></td>
+                  <td><a class="btn btn-sm btn-primary" href="<%= user_path(user) %>">Show</a></td>
+                </tr>
               <% end %>
-            </td>
-            <td><%= user.name %></td>
-          </tr>
-        <% end %>
-      <% else %>
-        <tr>
-          <td colspan="2">No users found.</td>
-        </tr>
-      <% end %>
-    </tbody>
-  
+            <% else %>
+              <tr>
+                <td colspan="3">No users found.</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

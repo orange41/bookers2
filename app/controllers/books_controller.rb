@@ -12,10 +12,12 @@ class BooksController < ApplicationController
     @book.user_id = current_user.id
     if @book.save
       flash[:notice] = 'successfully created'
-      redirect_to book_path(@book)  # ここを修正
+      redirect_to book_path(@book)
     else
       flash[:error] = 'error creating'
-      render :new
+      @user = current_user  # ここでログインユーザーを再設定
+      @books = Book.all
+      render 'index'
     end
   end
 
@@ -27,6 +29,7 @@ end
     @user = current_user
     @books = @user.books
     @books = Book.includes(:user).all
+    @book = Book.new  
   end
 
   def show
@@ -36,28 +39,28 @@ end
   end
 
   def update
-    @book = Book.find(params[:id])  # @bookを設定していないようなので追加
-    if @book.update(book_params)    # @book.updateに修正
-      flash[:notice] = 'successfully updated'
-      redirect_to books_path
-    else
-      flash[:error] = 'error updating'
-      render :edit  # :newから:editに修正
-    end
+    @book = Book.find(params[:id])
+   if @book.update(book_params)
+    flash[:notice] = 'successfully updated'
+    redirect_to book_path(@book)
+   else
+    flash[:error] = 'error updating'
+    render :edit
+   end
   end
 
   def destroy
     @book = Book.find_by(id: params[:id])
     if @book
       if @book.destroy
-        flash[:notice] = 'Successfully deleted'
+        flash[:notice] = 'successfully deleted'
         redirect_to books_path
       else
-        flash[:error] = 'Error deleting'
+        flash[:error] = 'error deleting'
         redirect_to book_path(@book)
       end
     else
-      flash[:error] = 'Book not found'
+      flash[:error] = 'book not found'
       redirect_to books_path
     end
   end

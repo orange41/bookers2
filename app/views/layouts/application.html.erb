@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <title>Bookers2</title>
@@ -10,16 +9,14 @@
     <script src="https://kit.fontawesome.com/6a081c7be2.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
   </head>
-
   <body class="d-flex flex-column vh-100">
     <header class="shadow-sm">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <a class="navbar-brand p-3 text-left" href="/">Bookers</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -38,7 +35,6 @@
                   <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
                 </li>
               <% else %>
-
                 <li class="nav-item">
                   <%= link_to 'Home', root_path, class: 'nav-link text-dark' %>
                 </li>
@@ -57,7 +53,11 @@
         </div>
       </nav>
     </header>
+
     <main class="mb-auto">
+      <% flash.each do |message_type, message| %>
+     <div class="alert alert-<%= message_type %>"><%= message %></div>
+   <% end %>
       <%= yield %>
     </main>
   </body>
