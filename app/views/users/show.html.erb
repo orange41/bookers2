@@ -17,6 +17,13 @@
             </tr>
           </tbody>
         </table>
+        <% if @user == current_user %>
+          <div class="row">
+            <a class="btn btn-outline-secondary btn-block" href="<%= edit_user_path(@user) %>">
+              Edit Profile
+            </a>
+          </div>
+        <% end %>
         <h2 class="mt-3">New book</h2>
         <form action="/books" accept-charset="UTF-8" method="post">
           <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -38,7 +45,7 @@
         <table class="table table-hover table-inverse">
           <thead>
             <tr>
-              <th>Image</th> <!-- ユーザー画像のヘッダー -->
+              <th>Image</th>
               <th>Title</th>
               <th>Opinion</th>
             </tr>
@@ -47,13 +54,13 @@
             <% @books.each do |book| %>
               <tr>
                 <td>
-                  <a href="<%= user_path(book.user) %>">
-                    <% if book.user.profile_image.attached? %>
+                  <% if book.user && book.user.profile_image.attached? %>
+                    <a href="<%= user_path(book.user) %>">
                       <%= image_tag(book.user.profile_image.variant(resize: "100x100")) %>
-                    <% else %>
-                      <%= image_tag('no_image.jpg', size: "100x100") %>
-                    <% end %>
-                  </a>
+                    </a>
+                  <% else %>
+                    <%= image_tag('no_image.jpg', size: "100x100") %>
+                  <% end %>
                 </td>
                 <td>
                   <a href="<%= book_path(book) %>">
