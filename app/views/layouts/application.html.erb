@@ -1,64 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Bookers2</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <script src="https://kit.fontawesome.com/6a081c7be2.js" crossorigin="anonymous"></script>
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-  <body class="d-flex flex-column vh-100">
-    <header class="shadow-sm">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-          <a class="navbar-brand p-3 text-left" href="/">Bookers</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                  aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ml-auto">
-              <% if user_signed_in? %>
-                <li class="nav-item">
-                  <%= link_to 'Home', user_path(current_user), class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <a href="/users" class="nav-link text-dark">Users</a>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'Books', books_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
-                </li>
-              <% else %>
-                <li class="nav-item">
-                  <%= link_to 'Home', root_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'About', home_about_path, class: 'nav-link text-dark', data: { turbolinks: false } %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'Log in', new_user_session_path, class: 'nav-link text-dark' %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+<head>
+  <title>Bookers2</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script src="https://kit.fontawesome.com/6a081c7be2.js" crossorigin="anonymous"></script>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body class="d-flex flex-column vh-100">
+  <header class="shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <a class="navbar-brand p-3 text-left" href="/">Bookers</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to user_path(current_user), class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-house"></i> Home
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to users_path, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-users"></i> Users
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to books_path, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-book-open"></i> Books
+                <% end %>
+               </li>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-right-from-bracket"></i> Log out
+                <% end %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to root_path, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-house"></i> Home
+                <% end %>
+              <li class="nav-item">
+                <%= link_to home_about_path, class: 'nav-link text-dark', data: { turbolinks: false } do %>
+                  <i class="fa-solid fa-link"></i> About
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_user_registration_path, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-user-plus"></i> Sign up
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_user_session_path, class: 'nav-link text-dark' do %>
+                  <i class="fa-solid fa-right-to-bracket"></i> Log in
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
         </div>
-      </nav>
-    </header>
-
-    <main class="mb-auto">
-      <% flash.each do |message_type, message| %>
-     <div class="alert alert-<%= message_type %>"><%= message %></div>
-   <% end %>
-      <%= yield %>
-    </main>
-  </body>
+      </div>
+    </nav>
+  </header>
+  <main class="mb-auto">
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
+    <%= yield %>
+  </main>
+</body>
 </html>
